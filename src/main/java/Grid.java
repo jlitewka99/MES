@@ -14,7 +14,6 @@ public class Grid {
     private double deltaY;
 
     ArrayList<Node> nodes = new ArrayList<Node>();
-    //elements.get remember to -1 if want to use like it was on lesson
     ArrayList<Element> elements = new ArrayList<Element>();
 
     /**
@@ -64,10 +63,18 @@ public class Grid {
      */
     public Node getNode(int n){return nodes.get(n-1);}
 
+    /**
+     * Getter gets all nodes
+     * @return nodes
+     */
     public ArrayList<Node> getNodes() {
         return nodes;
     }
 
+    /**
+     * Getter gets all elements
+     * @return elements
+     */
     public ArrayList<Element> getElements() {
         return elements;
     }
