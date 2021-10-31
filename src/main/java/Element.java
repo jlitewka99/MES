@@ -12,7 +12,7 @@ public class Element {
     }
 
     public int[] getID() {return id;}
-    public int getID(int n) {return id[n+1];}
+    public int getID(int n) {return id[n-1];}
     public int[] getId() {return id;}
 
     @Override

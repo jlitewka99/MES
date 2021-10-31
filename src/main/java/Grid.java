@@ -13,8 +13,14 @@ public class Grid {
     private double deltaX;
     private double deltaY;
 
+
     ArrayList<Node> nodes = new ArrayList<Node>();
     ArrayList<Element> elements = new ArrayList<Element>();
+
+    public int getnE() {
+        return nE;
+    }
+
 
     /**
      * Grid will be H x B and nH x nB nodes

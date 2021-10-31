@@ -11,7 +11,7 @@ public class Integral {
     }
 
 
-    public static double gaussTwoPoints2D(double p1, double p2) {
+    public static double gaussTwoPoints1D(double p1, double p2) {
         double mid = (Math.abs(p1) + Math.abs(p2)) / 2;
         double pp = p1 + p2;
         double w1 = 1.0;
@@ -20,7 +20,7 @@ public class Integral {
         return (w1 * f(pp + mid / Math.sqrt(3)) + w2 * f(pp - mid / Math.sqrt(3)));
     }
 
-    public static double gaussThreePoints2D(double p1, double p2) {
+    public static double gaussThreePoints1D(double p1, double p2) {
         double mid = (Math.abs(p1) + Math.abs(p2)) / 2;
         double pp = p1 + p2;
         double w1 = 5.0 / 9.0;
@@ -32,7 +32,7 @@ public class Integral {
         return (w1 * f1 + w2 * f2 + w1 * f3);
     }
 
-    public static double gaussFourPoints3D(double p1, double p2) {
+    public static double gaussTwoPoints2D(double p1, double p2) {
         double w1 = 1.0;
 
         double f1 = f(-1.0 / Math.sqrt(3), -1.0 / Math.sqrt(3));
@@ -43,7 +43,7 @@ public class Integral {
         return (w1 * f1 + w1 * f2 + w1 * f3 + w1 * f4);
     }
 
-    public static double gaussNinePoints3D(double p1, double p2) {
+    public static double gaussThreePoints2D(double p1, double p2) {
         double w1 = 5.0 / 9.0;
         double w2 = 8.0 / 9.0;
 
@@ -63,12 +63,11 @@ public class Integral {
     }
 
     public static void main(String[] args) {
-        double x = gaussTwoPoints2D(-1, 1);
-        System.out.println(x);
-        System.out.println(gaussThreePoints2D(-1, 1));
-        System.out.println(gaussFourPoints3D(1, 1));
-        System.out.println(gaussNinePoints3D(1, 1));
-        System.out.println("end");
+        System.out.println(gaussTwoPoints1D(-1, 1));
+        System.out.println(gaussThreePoints1D(-1, 1));
+        System.out.println(gaussTwoPoints2D(1, 1));
+        System.out.println(gaussThreePoints2D(1, 1));
+
     }
 
 }
