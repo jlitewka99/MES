@@ -1,7 +1,9 @@
+import Resoults.JakobianReturn;
+
 public class Main {
     public static void main(String[] args) {
         double H = 0.1;
-        double B = 0.1;
+        double B = 0.075;
         int nH = 5;
         int nB = 4;
         Grid grid = new Grid(H, B, nH, nB);
@@ -17,7 +19,11 @@ public class Main {
         System.out.println(element4_2D);
 
 
-        Algorithms.jakobian(grid, element4_2D, 1, 0);
+        JakobianReturn r1=Algorithms.jakobian(grid, element4_2D, 1, 0);
+        System.out.println(r1);
+
+        Algorithms.HMatrixIntegral(r1, element4_2D, 0, 30);
+
 
         int nE = grid.getnE();
         int npc = 4;
