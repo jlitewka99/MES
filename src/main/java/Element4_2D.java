@@ -1,9 +1,12 @@
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
+/**
+ *
+ */
 public class Element4_2D {
 
-    private final double A = 1/Math.sqrt(3);
+    private final double A = 1.0/Math.sqrt(3);
 
     private final double[] ksi = new double[]{-1.0 * A, A, A, -1.0 * A};
     private final double[] eta = new double[]{-1.0 * A, -1.0 * A, A, A};

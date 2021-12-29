@@ -2,6 +2,9 @@ package Resoults;
 
 import java.util.Arrays;
 
+/**
+ * This class is for returning Jakobian result
+ */
 public class JakobianReturn {
     private double det;
     private double d_1_det;
