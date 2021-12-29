@@ -1,8 +1,9 @@
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Grid {
     /**
-     * Fields that are passed by the user
+     * Fields that are passed as argument by the user
      */
 
     /**
@@ -147,10 +148,18 @@ public class Grid {
         return elements;
     }
 
+    /**
+     * Getter that returns number of nodes
+     * @return {@link Grid#nN} (number of nodes)
+     */
     public int getnN() {
         return nN;
     }
 
+    /**
+     * Getter that returns number of elements
+     * @return {@link Grid#nE} (number of elements)
+     */
     public int getnE() {
         return nE;
     }
@@ -160,8 +169,8 @@ public class Grid {
      */
 
     /**
-     *
-     * @param HGlobal
+     * Setter of {@link Grid#HGlobal}
+     * @param HGlobal - 2D array
      */
     public void setHGlobal(double[][] HGlobal) {
         this.HGlobal = HGlobal;
