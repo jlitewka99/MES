@@ -29,7 +29,7 @@ public class Element {
     /**
      * Constructor - creates element with IDs of nodes
      * @param n ID of bottom left node
-     * @param nH {@link Grid#nH}
+     * @param nH number of horizontal nodes
      */
     public Element(int n, int nH){
         id[0] = n;
@@ -76,12 +76,17 @@ public class Element {
      */
 
     /**
-     *
-     * @param h
+     * Setter of H local matrix
+     * @param H {@link Element#H}
      */
-    public void setH(double[][] h) {
-        H = h;
+    public void setH(double[][] H) {
+        this.H = H;
     }
+
+    /**
+     * Setter of HBC matrix
+     * @param HBC {@link Element#HBC}
+     */
     public void setHBC(double[][] HBC) {
         this.HBC = HBC;
     }
