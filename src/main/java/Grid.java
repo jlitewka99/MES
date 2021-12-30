@@ -39,20 +39,27 @@ public class Grid {
     private int nE;
 
     /**
-     * distance between x-axis nodes
+     * deltaX - distance between x-axis nodes
      */
     private double deltaX;
     /**
-     * distance between y-axis nodes
+     * deltaY - distance between y-axis nodes
      */
     private double deltaY;
 
-
+    /**
+     * HGlobal - global H matrix
+     */
     private double[][] HGlobal;
 
-    // list of nodes and list of elements
-    ArrayList<Node> nodes = new ArrayList<Node>();
-    ArrayList<Element> elements = new ArrayList<Element>();
+    /**
+     * nodes - list of all nodes
+     */
+    private ArrayList<Node> nodes = new ArrayList<Node>();
+    /**
+     * elements - list of all elements
+     */
+    private ArrayList<Element> elements = new ArrayList<Element>();
 
     /**
      * Grid will be H x B and nH x nB nodes
@@ -87,18 +94,23 @@ public class Grid {
             for (int j = 0; j < (nH - 1); j++) {
                 elements.add(new Element(n++, nH));
             }
+            // we need to increase n because it's an ID of bottom left node,
+            // and we are operating on elements (nH = nHE + 1)
             n++;
         }
+
+        short BC;
+
         for (int i = 0; i < nB; i++) {
             for (int j = 0; j < nH; j++) {
-                //sprawdzanie czy znajduje sie na krawedzi (wystepuje warunek brzegowy)
+                // checking if a node is on an edge (whether the boundary condition exists)
+                // BC = 1 when is on an edge, BC = 0 when it's not on an edge
                 if (i == 0 || j == 0 || i == nB - 1 || j == nH - 1) {
-                    // tworzenie siatki
-                    nodes.add(new Node(deltaX * i, deltaY * j, (short) 1));
+                    BC = 1;
+                }else {
+                    BC = 0;
                 }
-                else {
-                    nodes.add(new Node(deltaX * i, deltaY * j, (short) 0));
-                }
+                nodes.add(new Node(deltaX * i, deltaY * j, BC));
             }
         }
     }
