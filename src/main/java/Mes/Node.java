@@ -1,3 +1,5 @@
+package Mes;
+
 public class Node {
     /*
     wezly
@@ -35,6 +37,6 @@ public class Node {
                 "x=" + x +
                 ", y=" + y +
                 ", BC=" + BC +
-                '}';
+                "}\n";
     }
 }

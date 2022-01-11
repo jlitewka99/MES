@@ -1,3 +1,5 @@
+package Mes;
+
 public class Integral {
 
 
@@ -7,7 +9,7 @@ public class Integral {
 
     public static double f(double x, double y) {
 
-        return (5 * x*x * y*y + 3 * x * y + 6);
+        return (5 * x * x * y * y + 3 * x * y + 6);
     }
 
 
@@ -23,6 +25,7 @@ public class Integral {
     public static double gaussThreePoints1D(double p1, double p2) {
         double mid = (Math.abs(p1) + Math.abs(p2)) / 2;
         double pp = p1 + p2;
+
         double w1 = 5.0 / 9.0;
         double w2 = 8.0 / 9.0;
 
@@ -35,12 +38,12 @@ public class Integral {
     public static double gaussTwoPoints2D(double p1, double p2) {
         double w1 = 1.0;
 
-        double f1 = f(-1.0 / Math.sqrt(3), -1.0 / Math.sqrt(3));
-        double f2 = f(1.0 / Math.sqrt(3), -1.0 / Math.sqrt(3));
-        double f3 = f(1.0 / Math.sqrt(3), 1.0 / Math.sqrt(3));
-        double f4 = f(-1.0 / Math.sqrt(3), 1.0 / Math.sqrt(3));
+        double f1 = w1 * f(-1.0 / Math.sqrt(3), -1.0 / Math.sqrt(3));
+        double f2 = w1 * f(1.0 / Math.sqrt(3), -1.0 / Math.sqrt(3));
+        double f3 = w1 * f(1.0 / Math.sqrt(3), 1.0 / Math.sqrt(3));
+        double f4 = w1 * f(-1.0 / Math.sqrt(3), 1.0 / Math.sqrt(3));
 
-        return (w1 * f1 + w1 * f2 + w1 * f3 + w1 * f4);
+        return (f1 + f2 + f3 + f4);
     }
 
     public static double gaussThreePoints2D(double p1, double p2) {
@@ -59,7 +62,7 @@ public class Integral {
         double f8 = f(0, sqrt) * w1 * w2;
         double f9 = f(sqrt, sqrt) * w1 * w1;
 
-        return (f1+f2+f3+f4+f5+f6+f7+f8+f9);
+        return (f1 + f2 + f3 + f4 + f5 + f6 + f7 + f8 + f9);
     }
 
     public static void main(String[] args) {
@@ -67,7 +70,6 @@ public class Integral {
         System.out.println(gaussThreePoints1D(-1, 1));
         System.out.println(gaussTwoPoints2D(1, 1));
         System.out.println(gaussThreePoints2D(1, 1));
-
     }
 
 }

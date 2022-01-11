@@ -1,3 +1,5 @@
+package Mes;
+
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -32,7 +34,33 @@ public class Element4_2D {
             dn_dEta[i][1] = -ksiSF.get(1) * 0.5;
             dn_dEta[i][2] = ksiSF.get(1) * 0.5;
             dn_dEta[i][3] = ksiSF.get(0) * 0.5;
+
+            dn_dKsi[i][0] = function1(eta[i], true);
+            dn_dKsi[i][1] = function1(eta[i], false);
+            dn_dKsi[i][2] = function2(eta[i], false);
+            dn_dKsi[i][3] = function2(eta[i], true);
+            dn_dEta[i][0] = function1(ksi[i], true);
+            dn_dEta[i][1] = function2(ksi[i], true);
+            dn_dEta[i][2] = function2(ksi[i], false);
+            dn_dEta[i][3] = function1(ksi[i], false);
         }
+    }
+
+
+
+    private double function1(double a, boolean isNegative) {
+        double result = 0.25 * (1 - a);
+        if (isNegative) {
+            return -result;
+        }
+        return result;
+    }
+    private double function2(double a, boolean isNegative) {
+        double result = 0.25 * (1 + a);
+        if (isNegative) {
+            return -result;
+        }
+        return result;
     }
 
     public double[][] getDn_dKsi() {

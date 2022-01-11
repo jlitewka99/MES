@@ -1,4 +1,4 @@
-import java.util.Arrays;
+package Mes;
 
 public class Sides {
     private final Side[] sidesBottom = new Side[2];
@@ -28,27 +28,21 @@ public class Sides {
 
         double[][] a = multiplyTwoMatrixes(sidesLeft[0]);
         double[][] b = multiplyTwoMatrixes(sidesLeft[1]);
-        matrixLeft = addTwoMatrixes(a, b);
+        matrixLeft = Algorithms.addMatrixes(a, b);
 
 
         a = multiplyTwoMatrixes(sidesBottom[0]);
         b = multiplyTwoMatrixes(sidesBottom[1]);
 
-        System.out.println("DEBBUGING");
-        System.out.println((sidesBottom[0]));
-        System.out.println((sidesBottom[1]));
-        System.out.println(Arrays.deepToString(a));
-        System.out.println(Arrays.deepToString(b));
-
-        matrixBottom = addTwoMatrixes(a, b);
+        matrixBottom = Algorithms.addMatrixes(a, b);
 
         a = multiplyTwoMatrixes(sidesTop[0]);
         b = multiplyTwoMatrixes(sidesTop[1]);
-        matrixTop = addTwoMatrixes(a, b);
+        matrixTop = Algorithms.addMatrixes(a, b);
 
-        a = multiplyTwoMatrixes(sidesLeft[0]);
-        b = multiplyTwoMatrixes(sidesLeft[1]);
-        matrixRight = addTwoMatrixes(a, b);
+        a = multiplyTwoMatrixes(sidesRight[0]);
+        b = multiplyTwoMatrixes(sidesRight[1]);
+        matrixRight = Algorithms.addMatrixes(a, b);
     }
 
 
@@ -65,41 +59,20 @@ public class Sides {
         return matrix;
     }
 
-    public static double[][] addTwoMatrixes(double[][] matrix1, double[][] matrix2) {
-        double[][] result = new double[matrix1.length][matrix1[0].length];
-        for (int i = 0; i < matrix1.length; i++) {
-            for (int j = 0; j < matrix1[0].length; j++) {
-                result[i][j] = matrix1[i][j] + matrix2[i][j];
-            }
-        }
-        return result;
-    }
-
     public double[][] getMatrixBottom(double det_J, double wpc) {
-        return multiplyMatrix(matrixBottom, det_J*wpc);
+        return Algorithms.multiplyMatrix(matrixBottom, det_J*wpc);
     }
 
     public double[][] getMatrixRight(double det_J, double wpc) {
-        return multiplyMatrix(matrixRight, det_J*wpc);
+        return Algorithms.multiplyMatrix(matrixRight, det_J*wpc);
     }
 
     public double[][] getMatrixTop(double det_J, double wpc) {
-        return multiplyMatrix(matrixTop, det_J*wpc);
+        return Algorithms.multiplyMatrix(matrixTop, det_J*wpc);
     }
 
     public double[][] getMatrixLeft(double det_J, double wpc) {
-        return multiplyMatrix(matrixLeft, det_J*wpc);
-    }
-
-    // przekazywane jest det[J]
-    private double[][] multiplyMatrix(double[][] matrix, double multiplier){
-        double[][] result = new double[4][4];
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                result[i][j] = matrix[i][j] * multiplier;
-            }
-        }
-        return result;
+        return Algorithms.multiplyMatrix(matrixLeft, det_J*wpc);
     }
 
     public void main(String[] args) {
