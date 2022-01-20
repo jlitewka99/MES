@@ -1,8 +1,6 @@
-package Mes;
+package Algorithms.HelpingElements;
 
 import Algorithms.Utilities;
-
-import java.util.Arrays;
 
 public class Sides {
     private final Side[] sidesBottom = new Side[2];
@@ -172,18 +170,12 @@ public class Sides {
      */
     public double[][] multiplyMatrixes1Dto2D(int pointLocalId, double C, double RO, double w, double detJ) {
 
-        double[][] d = Utilities.multiplyMatrix(multiplyTwoMatrixes(sidesC[pointLocalId]), C * RO * w * detJ);
-        return d;
+        return Utilities.multiplyMatrix(multiplyTwoMatrixes(sidesC[pointLocalId]), C * RO * w * detJ);
+//        return d;
     }
 
     public Side[] getSidesC() {
         return sidesC;
     }
 
-    public void main(String[] args) {
-//        Sides si = new Sides();
-//        //hbc
-//        System.out.println(Arrays.deepToString(Sides.getMatrixLeft(0.0125, 25.0)));
-
-    }
 }

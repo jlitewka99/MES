@@ -1,4 +1,4 @@
-package Resoults;
+package DataHolders;
 
 import java.util.Arrays;
 

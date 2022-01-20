@@ -1,4 +1,6 @@
-package Mes;
+package Algorithms.HelpingElements;
+
+import Algorithms.Algorithms;
 
 import java.text.DecimalFormat;
 import java.util.List;

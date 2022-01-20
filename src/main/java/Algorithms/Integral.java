@@ -1,4 +1,4 @@
-package Mes;
+package Algorithms;
 
 public class Integral {
 

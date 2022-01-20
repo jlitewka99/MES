@@ -1,6 +1,6 @@
 package Algorithms;
 
-import Mes.Grid;
+import BaseElements.Grid;
 
 import java.util.Arrays;
 

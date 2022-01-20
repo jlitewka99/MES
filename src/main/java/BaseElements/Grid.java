@@ -1,6 +1,8 @@
-package Mes;
+package BaseElements;
 
-import Resoults.Params;
+import DataHolders.Params;
+import Algorithms.Algorithms;
+import Algorithms.HelpingElements.Element4_2D;
 import org.apache.commons.math3.linear.*;
 
 import Algorithms.Utilities;

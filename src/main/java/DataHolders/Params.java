@@ -1,4 +1,4 @@
-package Resoults;
+package DataHolders;
 
 /**
  * initialTemperature – initial temperature

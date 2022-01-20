@@ -1,10 +1,12 @@
-package Mes;
+package Algorithms;
 
-import Resoults.JakobianReturn;
-import Algorithms.Utilities;
-import Resoults.Params;
+import BaseElements.Grid;
+import BaseElements.Node;
+import DataHolders.JakobianReturn;
+import DataHolders.Params;
+import Algorithms.HelpingElements.Element4_2D;
+import Algorithms.HelpingElements.Sides;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Algorithms {
@@ -253,18 +255,6 @@ public class Algorithms {
             grid.getElement(i).setHBC(HBCMatrix);
             grid.getElement(i).setP(PMatrix);
         }
-//        System.out.println("HBC");
-//        System.out.println(Arrays.deepToString(grid.getElement(1).getHBC()));
-
-//        r[0] = Algorithms.jakobian(grid, element4_2D, 1, 0);
-//        r[1] = Algorithms.jakobian(grid, element4_2D, 1, 1);
-//        r[2] = Algorithms.jakobian(grid, element4_2D, 1, 2);
-//        r[3] = Algorithms.jakobian(grid, element4_2D, 1, 3);
-
-//        System.out.println(r[0]);
-//        System.out.println(r[1]);
-//        System.out.println(r[2]);
-//        System.out.println(r[3]);
     }
 
     private static double countDet_J(Node n1, Node n2) {
