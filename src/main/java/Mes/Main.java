@@ -1,68 +1,85 @@
 package Mes;
 
 import Algorithms.Utilities;
+import Resoults.Params;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+
+import java.util.Arrays;
+
+
 
 public class Main {
+
+    private static Params getTest1(){
+        double initialTemperature = 100;
+        double simulationTime = 500;
+        double dT = 50;
+        double ambientTemperature = 1200;
+        double alfa = 300;
+        double H = 0.10;
+        double B = 0.10;
+        int nH = 4;
+        int nB = 4;
+        double C = 700;
+        double conductivity = 25;
+        double RO = 7800;
+
+        return new Params(initialTemperature, simulationTime, dT, ambientTemperature, alfa, H, B, nH, nB, C, conductivity, RO);
+    }
+    private static Params getTest2(){
+        double initialTemperature = 100;
+        double simulationTime = 100;
+        double dT = 1;
+        double ambientTemperature = 1200;
+        double alfa = 300;
+        double H = 0.10;
+        double B = 0.10;
+        int nH = 31;
+        int nB = 31;
+        double C = 700;
+        double conductivity = 25;
+        double RO = 7800;
+
+        return new Params(initialTemperature, simulationTime, dT, ambientTemperature, alfa, H, B, nH, nB, C, conductivity, RO);
+    }
+    private static Params getTest3(){
+        double initialTemperature = 100;
+        double simulationTime = 100;
+        double dT = 1;
+        double ambientTemperature = 1200;
+        double alfa = 300;
+        double H = 0.10;
+        double B = 0.10;
+        int nH = 100;
+        int nB = 100;
+        double C = 700;
+        double conductivity = 25;
+        double RO = 7800;
+
+        return new Params(initialTemperature, simulationTime, dT, ambientTemperature, alfa, H, B, nH, nB, C, conductivity, RO);
+    }
     public static void main(String[] args) {
         /*
         Start params.
         Size of grid, number of elements etc.
          */
-        double H = 0.10;
-        double B = 0.10;
-        int nH = 4;
-        int nB = 4;
-        double alfa = 25;
-        double conductivity = 300;
-//        double H = 0.1;
-//        double B = 0.075;
-//        int nH = 5;
-//        int nB = 4;
-//        double alfa = 30;
-//        double conductivity = 25;
-
+        Params params = getTest3();
         // creating grid by specific params
-        Grid grid = new Grid(H, B, nH, nB);
+
+        Grid grid = new Grid(params);
 
         // write down
 
 
-        Element4_2D element4_2D = new Element4_2D();
-        System.out.println(element4_2D);
-
-        Algorithms.countHAndHBC(grid, element4_2D, alfa, conductivity);
-
-        Utilities.displayElements(grid);
-        Utilities.displayNodes(grid);
 
 
-
-
-
-        //agregacja
-
-        double[][] HGlobal = new double[grid.getnN()][grid.getnN()];
-
-        for (int i = 0; i < grid.getnE(); i++) {
-            Element element = grid.getElement(i+1);
-            int[] ids = element.getID();
-            for (int j = 0; j < 4; j++) {
-                for (int k = 0; k < 4; k++) {
-                    HGlobal[ids[j]-1][ids[k]-1] += (element.getH()[j][k]/* + element.getHBC()[j][k]*/);
-                }
-            }
-        }
-        System.out.println("HGlobal: ");
-//        for (int i = 0; i < 16; i++) {
-//            for (int j = 0; j < 16; j++) {
-//                System.out.print(HGlobal[i][j] + "    ");
-//            }
-//            System.out.println();
-//        }
-//
-        System.out.println(Utilities.getArrayString(HGlobal) );
 
 
 
     }
+
+
 }

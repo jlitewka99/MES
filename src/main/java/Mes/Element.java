@@ -29,6 +29,15 @@ public class Element {
      */
     private double[][] H = new double[4][4];
 
+    /**
+     * P - 1D matrix (wektor obciążeń)
+     */
+    private double[] P = new double[4];
+    /**
+     * C - 2D 4x4 matrix
+     */
+    private double[][] C = new double[4][4];
+
 
     /**
      * Constructor - creates element with IDs of nodes
@@ -85,6 +94,18 @@ public class Element {
     }
 
     /**
+     * Getter of P local matrix
+     *
+     * @return {@link Element#P}
+     */
+    public double[] getP() {
+        return P;
+    }
+
+    public double[][] getC() {
+        return C;
+    }
+    /**
      * Setters
      */
 
@@ -106,6 +127,20 @@ public class Element {
         this.HBC = HBC;
     }
 
+    /**
+     * Setter of P local matrix
+     *
+     * @param p {@link Element#P}
+     */
+    public void setP(double[] p) {
+        P = p;
+    }
+
+
+    public void setC(double[][] c) {
+        C = c;
+    }
+
     @Override
     public String toString() {
         return "Element{" +
@@ -114,6 +149,8 @@ public class Element {
 //                ",\nH=\n" + Arrays.toString(H[0]) + "\n" + Arrays.toString(H[1]) + "\n" + Arrays.toString(H[2]) + "\n" + Arrays.toString(H[3]) + "\n" +
                 "\nHBC=\n" + Utilities.getArrayString(HBC) +
                 "\nH=\n" + Utilities.getArrayString(H) +
+                "\nC=\n" + Utilities.getArrayString(C) +
+                "\nP=\n" + Arrays.toString(P) +
                 "}\n";
     }
 }

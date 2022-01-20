@@ -8,11 +8,13 @@ public class Node {
     double x;
     double y;
     short BC;
+    double temperature;
 
-    public Node(double x, double y, short BC) {
+    public Node(double x, double y, short BC, double startTemperature) {
         this.x = x;
         this.y = y;
         this.BC = BC;
+        this.temperature = startTemperature;
     }
 
     public double getX() {
@@ -23,12 +25,20 @@ public class Node {
         return y;
     }
 
-    public void setBC(short BC) {
-        this.BC = BC;
-    }
-
     public short getBC() {
         return BC;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public void setBC(short BC) {
+        this.BC = BC;
     }
 
     @Override

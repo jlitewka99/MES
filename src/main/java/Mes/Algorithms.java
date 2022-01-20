@@ -1,6 +1,8 @@
 package Mes;
 
 import Resoults.JakobianReturn;
+import Algorithms.Utilities;
+import Resoults.Params;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +10,9 @@ import java.util.List;
 public class Algorithms {
 
 
-    public static JakobianReturn jakobian(Grid grid, Element4_2D element4_2D, int index, int pcNo) {
+    public static JakobianReturn jakobian(Grid grid, int index, int pcNo) {
+
+        Element4_2D element4_2D = grid.getElement4_2D();
 
         int id1 = grid.getElement(index).getID(1);
         int id2 = grid.getElement(index).getID(2);
@@ -67,7 +71,9 @@ public class Algorithms {
         matrix_inv[1][1] = matrix[0][0];
 
 
-        return new JakobianReturn(det, d_1_det, matrix, matrix_inv);
+        JakobianReturn jakobianReturn = new JakobianReturn(det, d_1_det, matrix, matrix_inv);
+        System.out.println(jakobianReturn);
+        return jakobianReturn;
     }
 
 
@@ -109,10 +115,10 @@ public class Algorithms {
         return matrix;
     }
 
-    public static double[][] HMatrixIntegral(JakobianReturn[] pc, Element4_2D element4_2D, double wwc) {
+    public static double[][] HMatrixIntegral(JakobianReturn[] pc, Element4_2D element4_2D, double conductivity) {
         double[][] result = new double[4][4];
         for (int i = 0; i < 4; i++) {
-            double[][] matrix = HMatrixIntegralOfSpecificPc(pc[i], element4_2D, i, wwc);
+            double[][] matrix = HMatrixIntegralOfSpecificPc(pc[i], element4_2D, i, conductivity);
             for (int j = 0; j < 4; j++) {
                 for (int k = 0; k < 4; k++) {
                     result[j][k] += matrix[j][k];
@@ -157,14 +163,28 @@ public class Algorithms {
                 (0.25 * (1.0 - ksi) * (1.0 + eta)));
     }
 
+
     /**
+     * Counts local [H], [HBC], [P], [C]
      * @param grid
-     * @param element4_2D
-     * @param alfa        - [W/m^2*K]
+     * @param params
      */
-    public static void countHAndHBC(Grid grid, Element4_2D element4_2D, double alfa, double conductivity) {
+    public static void countH_HBC_P_C(Grid grid, Params params) {
+        Element4_2D element4_2D = grid.getElement4_2D();
+        double conductivity = params.conductivity();
+        double alfa = params.alfa();
+        double ambientTemperature = params.ambientTemperature();
+        double C = params.C();
+        double RO = params.RO();
+
+
+
+
         double[][] hMatrix;
         double[][] HBCMatrix;
+        double[][] CMatrix;
+        double[] PMatrix;
+
 
         int[] indexes;
         JakobianReturn[] r = new JakobianReturn[4];
@@ -174,21 +194,30 @@ public class Algorithms {
         for (int i = 1; i <= grid.getElements().size(); i++) {
 
             HBCMatrix = new double[4][4];
+            CMatrix = new double[4][4];
+            PMatrix = new double[4];
 
             /**
              * Counting H matrix
              */
-            r[0] = Algorithms.jakobian(grid, element4_2D, i, 0);
-            r[1] = Algorithms.jakobian(grid, element4_2D, i, 1);
-            r[2] = Algorithms.jakobian(grid, element4_2D, i, 2);
-            r[3] = Algorithms.jakobian(grid, element4_2D, i, 3);
+            r[0] = Algorithms.jakobian(grid, i, 0);
+            r[1] = Algorithms.jakobian(grid, i, 1);
+            r[2] = Algorithms.jakobian(grid, i, 2);
+            r[3] = Algorithms.jakobian(grid, i, 3);
 
-            hMatrix = Algorithms.HMatrixIntegral(r, element4_2D, alfa);
+            hMatrix = Algorithms.HMatrixIntegral(r, element4_2D, conductivity);
 
             grid.getElement(i).setH(hMatrix);
 
-//            System.out.println("HMatrix");
-//            System.out.println(Arrays.deepToString(hMatrix));
+            /**
+             * Counting C matrix
+             */
+            for (int j = 0; j < 4; j++) {
+                double[][] d = sides.multiplyMatrixes1Dto2D(j, C, RO, 1.0, r[j].getDet());
+                CMatrix = Utilities.addMatrixes(d, CMatrix);
+
+            }
+            grid.getElement(i).setC(CMatrix);
             /**
              * Counting HBC matrix
              */
@@ -196,21 +225,33 @@ public class Algorithms {
             double det_J;
             if (grid.getNode(indexes[0]).getBC() == 1 && grid.getNode(indexes[1]).getBC() == 1) {
                 det_J = countDet_J(grid.getNode(indexes[0]), grid.getNode(indexes[1]));
-                HBCMatrix = Algorithms.addMatrixes(sides.getMatrixBottom(det_J, conductivity), HBCMatrix);
+
+                HBCMatrix = Utilities.addMatrixes(sides.getMatrixBottom(det_J, alfa), HBCMatrix);
+                PMatrix = Utilities.addMatrixes(sides.getMatrixBottom(ambientTemperature, alfa, det_J), PMatrix);
             }
             if (grid.getNode(indexes[1]).getBC() == 1 && grid.getNode(indexes[2]).getBC() == 1) {
                 det_J = countDet_J(grid.getNode(indexes[1]), grid.getNode(indexes[2]));
-                HBCMatrix = Algorithms.addMatrixes(sides.getMatrixRight(det_J, conductivity), HBCMatrix);
+
+                HBCMatrix = Utilities.addMatrixes(sides.getMatrixRight(det_J, alfa), HBCMatrix);
+                PMatrix = Utilities.addMatrixes(sides.getMatrixRight(ambientTemperature, alfa, det_J), PMatrix);
+
             }
             if (grid.getNode(indexes[2]).getBC() == 1 && grid.getNode(indexes[3]).getBC() == 1) {
                 det_J = countDet_J(grid.getNode(indexes[2]), grid.getNode(indexes[3]));
-                HBCMatrix = Algorithms.addMatrixes(sides.getMatrixTop(det_J, conductivity), HBCMatrix);
+
+                HBCMatrix = Utilities.addMatrixes(sides.getMatrixTop(det_J, alfa), HBCMatrix);
+                PMatrix = Utilities.addMatrixes(sides.getMatrixTop(ambientTemperature, alfa, det_J), PMatrix);
+
             }
             if (grid.getNode(indexes[3]).getBC() == 1 && grid.getNode(indexes[0]).getBC() == 1) {
                 det_J = countDet_J(grid.getNode(indexes[3]), grid.getNode(indexes[0]));
-                HBCMatrix = Algorithms.addMatrixes(sides.getMatrixLeft(det_J, conductivity), HBCMatrix);
+
+                HBCMatrix = Utilities.addMatrixes(sides.getMatrixLeft(det_J, alfa), HBCMatrix);
+                PMatrix = Utilities.addMatrixes(sides.getMatrixLeft(ambientTemperature, alfa, det_J), PMatrix);
+
             }
             grid.getElement(i).setHBC(HBCMatrix);
+            grid.getElement(i).setP(PMatrix);
         }
 //        System.out.println("HBC");
 //        System.out.println(Arrays.deepToString(grid.getElement(1).getHBC()));
@@ -224,38 +265,6 @@ public class Algorithms {
 //        System.out.println(r[1]);
 //        System.out.println(r[2]);
 //        System.out.println(r[3]);
-    }
-
-    /**
-     * @param matrix     - 2D matrix
-     * @param multiplier - double multiplier
-     * @return 2D matrix with all elements multiplied by multiplier
-     */
-    public static double[][] multiplyMatrix(double[][] matrix, double multiplier) {
-        double[][] result = new double[4][4];
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                result[i][j] = matrix[i][j] * multiplier;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Adds two 2D matrix, with the same dimensions
-     *
-     * @param matrix1 - 2D matrix
-     * @param matrix2 - 2D matrix
-     * @return sum of matrix1 and matrix2
-     */
-    public static double[][] addMatrixes(double[][] matrix1, double[][] matrix2) {
-        double[][] result = new double[matrix1.length][matrix1[0].length];
-        for (int i = 0; i < matrix1.length; i++) {
-            for (int j = 0; j < matrix1[0].length; j++) {
-                result[i][j] = matrix1[i][j] + matrix2[i][j];
-            }
-        }
-        return result;
     }
 
     private static double countDet_J(Node n1, Node n2) {
